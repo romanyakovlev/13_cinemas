@@ -1,7 +1,7 @@
-from bs4 import BeautifulSoup
-import argparse
 import requests
 import re
+from bs4 import BeautifulSoup
+import argparse
 
 
 def fetch_afisha_page():
@@ -34,10 +34,8 @@ def output_movies_to_console(movies):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-cinema_limit')
-    parser.add_argument('-reviews_limit')
-    args = vars(parser.parse_args())
-    cinema_limit, reviews_limit = int(args["cinema_limit"]), int(args["reviews_limit"])
+    parser.add_argument('cinema_limit')
+    cinema_limit = int(parser.parse_args().cinema_limit)
     arr = []
     print('Программа выполняется...')
     for movie_name, cinema_amount in parse_afisha_list(fetch_afisha_page()):
