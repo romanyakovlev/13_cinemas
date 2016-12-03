@@ -20,7 +20,7 @@ def parse_afisha_list(raw_html):
     soup_data =  BeautifulSoup(raw_html, 'html.parser')
     movies_list = soup_data.find_all(class_="object")
     return [[movie.find(class_="m-disp-table").a.text,
-               len(movie.find_all(class_ = "b-td-item"))] for movie in movies_list]
+               len(movie.find_all(class_="b-td-item"))] for movie in movies_list]
 
 
 def fetch_movie_info(movie_title):
