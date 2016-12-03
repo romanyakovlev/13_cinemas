@@ -17,17 +17,17 @@ def fetch_afisha_page():
 
 
 def parse_afisha_list(raw_html):
-    soup =  BeautifulSoup(raw_html, 'html.parser')
-    movies_list = soup.find_all(class_="object")
+    soup_data =  BeautifulSoup(raw_html, 'html.parser')
+    movies_list = soup_data.find_all(class_="object")
     return [[movie.find(class_="m-disp-table").a.text,
                len(movie.find_all(class_ = "b-td-item"))] for movie in movies_list]
 
 
 def fetch_movie_info(movie_title):
     request_params = {"text": movie_title}
-    data = requests.get("https://plus.kinopoisk.ru/search/films/", params=request_params).content
-    soup = BeautifulSoup(data, "html.parser")
-    html_film = soup.find(class_="link  film-snippet__media-content").attrs['href']
+    request_data = requests.get("https://plus.kinopoisk.ru/search/films/", params=request_params).content
+    soup_data = BeautifulSoup(request_data, "html.parser")
+    html_film = soup_data.find(class_="link  film-snippet__media-content").attrs['href']
     film_page = requests.get(html_film).content
     film_soup = BeautifulSoup(film_page, "html.parser")
     film_rating = film_soup.find(class_="rating-button__rating").text
