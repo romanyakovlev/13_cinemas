@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('cinema_limit')
-    cinema_limit = int(parser.parse_args().cinema_limit)
+    parser.add_argument('cinema_limit', type=int)
+    cinema_limit = parser.parse_args().cinema_limit
     return cinema_limit
 
 
@@ -20,7 +20,7 @@ def parse_afisha_list(raw_html):
     soup_data =  BeautifulSoup(raw_html, 'html.parser')
     movies_list = soup_data.find_all(class_="object")
     return [[movie.find(class_="m-disp-table").a.text,
-               len(movie.find_all(class_="b-td-item"))] for movie in movies_list]
+             len(movie.find_all(class_="b-td-item"))] for movie in movies_list]
 
 
 def fetch_movie_info(movie_title):
@@ -46,7 +46,7 @@ def output_movies_to_console(movies):
         return None
     for name, cinema_amount, rating, reviews_amount in sorted_arr:
         print('Название: {}, кол-во кинотеатров: {}, рейтинг: {}, кол-во оценок: {}\n'.format(
-                name, cinema_amount, rating, reviews_amount))
+              name, cinema_amount, rating, reviews_amount))
 
 
 def parse_kiopoisk_and_filter_by_cinemas(movies_info, cinema_limit):
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     cinema_limit = parse_args()
     print('Программа выполняется...')
     movies_list =parse_kiopoisk_and_filter_by_cinemas(parse_afisha_list(fetch_afisha_page()),
-                                                                                         cinema_limit)
+                                                      cinema_limit)
     print('Первый 10 фильмов, идущих в кинотеатрах, отсортированные по рейтингу (фильтр' +
     ' - {} и более кинотеатров):\n'.format(cinema_limit))
     output_movies_to_console(movies_list)
